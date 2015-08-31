@@ -14,9 +14,9 @@ if [[ $1 == "parse" ]]; then
         if [[ $packet =~ ^04\ 3E\ 2B\ 02\ 01\ .{35}\ 00\ 11\ 22\ 33\ 44\ 55\ 66 ]]; then
           UUID=`echo $packet | sed 's/^.\{84\}\(.\{53\}\).*$/\1/'`
           if [[ $2 == "-b" ]]; then
-            echo "$UUID"
+	    echo "$UUID"
           else
-            echo "UUID: $UUID"
+    	    echo "UUID: $UUID"
           fi
         fi
         capturing=""
