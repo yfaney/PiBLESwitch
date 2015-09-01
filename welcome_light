@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ gpio mode 7 out
+ trap "gpio write 7 0" exit
+ while read line
+ do
+   if [[ `echo $line | grep "4D 79 20 42 4C 45 20 44 61 74 61 21 21 21 21 21" ` ]]; then
+     gpio write 7 1
+   else
+     gpio write 7 0
+   fi
+ done
