@@ -3,7 +3,7 @@
 import sys
 
 AVG_FILE = "/var/ramdrive/beacon_avg_data.data"
-MAX_QUEUE_SIZE = 10
+MAX_QUEUE_SIZE = 8
 MAX_RSSI = 218.0
 MIN_RSSI = 162.0
 THRESHOLD_PERCENT_LOW = 25.0

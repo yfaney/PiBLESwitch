@@ -1,12 +1,25 @@
 #!/bin/bash
 
- gpio mode 7 out
- trap "gpio write 7 0" exit
- while read line
- do
-   if [[ `echo $line | grep "4D 79 20 42 4C 45 20 44 61 74 61 21 21 21 21 21" ` ]]; then
-     gpio write 7 1
-   else
-     gpio write 7 0
-   fi
- done
+gpio mode 7 out
+trap "gpio write 7 0" exit
+LIGHTON=false
+while read line
+do
+  if [[ `echo $line | grep "4D 79 20 42 4C 45 20 44 61 74 61" ` ]]; then
+    rssi=`echo $line | sed 's/^.\{51\}\(.*$\)/\1/'`
+    #echo $rssi
+    #python ./beacon_rssi.py $rssi
+    ./beacon_rssi_avg $rssi
+    rcode=$?
+    #echo $rcode
+    if test $rcode -eq 1 && ! $LIGHTON ; then
+      echo "LIGHT ON!"
+      gpio write 7 1
+      LIGHTON=true
+    elif test $rcode -eq 255 && $LIGHTON ; then
+      echo "LIGHT OFF!"
+      gpio write 7 0
+      LIGHTON=false
+    fi
+  fi
+done
